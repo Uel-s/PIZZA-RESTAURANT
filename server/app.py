@@ -65,8 +65,21 @@ class Restaurant_Delete(Resource):
     def delete(self, id):
 
         res_delete = Restaurants.query.get(id)
-        
 
+        if res_delete:
+
+            for respizza in res_delete.respizza:
+                db.session.delete(respizza)
+                db.session.commit()
+                return make_response("",204)
+
+        else: 
+            return make_response(jsonify({"error":"Restaurant not found"})) 
+
+api.add_resource(Restaurant_Delete,"/deleteres/<int:id>") 
+
+
+class Pizza_Get()
 
 
 class Restaurant_pizza(Resource):
