@@ -38,8 +38,6 @@ api.add_resource(Restaurant,"/restaurants")
 
 
 class RestaurantId(Resource):
-    
-
     def get(self, id):
         restaurant = Restaurants.query.get(id)
         if restaurant:
@@ -48,7 +46,11 @@ class RestaurantId(Resource):
                 "name": restaurant.name,
                 "address": restaurant.address,
                 "pizzas": [
-                    {"id": pizza.id, "name": pizza.name, "ingredients": pizza.ingredients}
+                    {
+                        "id": pizza.id,
+                        "name": pizza.pizzas.name,  # Access the 'name' attribute from the associated Pizza object
+                        "ingredients": pizza.pizzas.ingredients  # Access the 'ingredients' attribute from the associated Pizza object
+                    }
                     for pizza in restaurant.respizza
                 ],
             }
@@ -64,7 +66,7 @@ class Restaurant_Delete(Resource):
     
     def delete(self, id):
 
-        res_delete = Restaurants.query.get(id)
+        res_delete = Restaurants.query.filter_by(id=id).first()
 
         if res_delete:
 
