@@ -14,6 +14,9 @@ class Pizzas(db.Model):
 
     respizza = db.relationship("Restaurant_Pizzas", backref= "pizzas")
 
+    def  __repr__ (self):
+        return f"Pizzas(id={self.id}, name={self.name}, ingredients{self.ingredients})"
+
 class Restaurants(db.Model):
     __tablename__ = "restaurant"
 
@@ -22,6 +25,9 @@ class Restaurants(db.Model):
     address = db.Column(db.String)
 
     respizza = db.relationship("Restaurant_Pizza", backref="restaurants")
+
+    def __repr__(self):
+        return f"Restaurant(id={self.id}, name={self.name}, address={self.address})"
 
 
 class Restaurant_Pizzas(db.Model):
@@ -34,6 +40,10 @@ class Restaurant_Pizzas(db.Model):
 
     pizza_id = db.Column(db.Integer, db.ForeignKey("pizza.id"))
     restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"))
+
+
+    def __repr__(self):
+        return f"Restaurant_Pizzas(id={self.id}, price={self.price})"
 
 
 
