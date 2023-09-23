@@ -79,7 +79,28 @@ class Restaurant_Delete(Resource):
 api.add_resource(Restaurant_Delete,"/deleteres/<int:id>") 
 
 
-class Pizza_Get()
+class Pizza_Get(Resource):
+
+    def get (self):
+
+        pizzas = Pizzas.query.all()
+        pizza_dict = []
+        for n in pizzas:
+            data = {
+                "id":n.id,
+                "name":n.name,
+                "ingredients":n.ingredients
+            }
+
+            pizza_dict.append(data)
+
+            return make_response(jsonify(pizza_dict),200)
+
+
+    
+
+api.add_resource(Pizza_Get,"/pizza")        
+
 
 
 class Restaurant_pizza(Resource):
