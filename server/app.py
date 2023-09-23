@@ -37,6 +37,38 @@ class Restaurant(Resource):
 api.add_resource(Restaurant,"/restaurants")
 
 
+class RestaurantId(Resource):
+    
+
+    def get(self, id):
+        restaurant = Restaurants.query.get(id)
+        if restaurant:
+            data = {
+                "id": restaurant.id,
+                "name": restaurant.name,
+                "address": restaurant.address,
+                "pizzas": [
+                    {"id": pizza.id, "name": pizza.name, "ingredients": pizza.ingredients}
+                    for pizza in restaurant.respizza
+                ],
+            }
+            return make_response(jsonify(data), 200)
+        else:
+            return make_response(jsonify({"error": "Restaurant not found"}), 404)
+
+
+api.add_resource(RestaurantId, "/resid/<int:id>")   
+
+
+class Restaurant_Delete(Resource):
+    
+    def delete(self, id):
+
+        res_delete = Restaurants.query.get(id)
+        
+
+
+
 class Restaurant_pizza(Resource):
 
      def post(self):
@@ -54,13 +86,7 @@ class Restaurant_pizza(Resource):
 
         return make_response("", 201)
 
-
-        
-
 api.add_resource(Restaurant_pizza,"/restaurant_pizzas")
-
-
-
 
 
 
