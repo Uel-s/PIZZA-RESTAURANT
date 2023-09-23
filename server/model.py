@@ -12,7 +12,7 @@ class Pizzas(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    respizza = db.relationship("Restaurant_Pizzas", backref= "pizzas", lazy=True)
+    respizza = db.relationship("Restaurant_Pizzas", back_populates= "pizzas", lazy=True)
 
 
 
@@ -23,16 +23,23 @@ class Restaurants(db.Model):
     __tablename__ = "restaurant"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, unique = True, nullable = False)
+    name = db.Column(db.String, unique = True)
     address = db.Column(db.String)
 
-    respizza = db.relationship("Restaurant_Pizza", backref="restaurants", lazy=True)
+    respizza = db.relationship("Restaurant_Pizzas", back_populates="restaurants", lazy=True)
 
     @validates("name")
     def validate_name(self, key, name):
+
+        names = db.session.query(Restaurants.name).all()
     
         if len(name) > 50:
             raise ValueError("Must have a name less than 50 words")    
+       
+
+        elif name in names:
+            raise ValueError("Must have a unique name")
+
         return name
 
     def __repr__(self):
@@ -44,11 +51,16 @@ class Restaurant_Pizzas(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     price =db.Column(db.Integer)
+    pizza_id = db.Column(db.Integer, db.ForeignKey("pizza.id"))
+    restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    pizza_id = db.Column(db.Integer, db.ForeignKey("pizza.id"))
-    restaurant_id = db.Column(db.Integer, db.ForeignKey("restaurant.id"))
+   
+
+    restaurants = db.relationship("Restaurants", back_populates="respizza", lazy =True)
+
+    pizzas = db.relationship("Pizzas", back_populates= "respizza", lazy = True)
 
     @validates("price")
     def validate_price(self, key, price):
@@ -56,9 +68,6 @@ class Restaurant_Pizzas(db.Model):
             raise ValueError("Price Must Be Between 1 and 30")
 
         return price    
-
-
-
 
     def __repr__(self):
         return f"Restaurant_Pizzas(id={self.id}, price={self.price})"
