@@ -1,1 +1,5 @@
 # PIZZA-RESTAURANT
+
+## LICENSE
+
+[LICENSE](#license)
