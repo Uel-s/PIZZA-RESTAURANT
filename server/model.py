@@ -24,7 +24,7 @@ class Restaurants(db.Model):
     respizza = db.relationship("Restaurant_Pizza", backref="restaurants")
 
 
-class Restaurant_Pizzas(db.Column):
+class Restaurant_Pizzas(db.Model):
     __tablename__ = "respizza"
 
     id = db.Column(db.Integer, primary_key=True)

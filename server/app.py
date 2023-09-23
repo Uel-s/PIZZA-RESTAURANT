@@ -1,6 +1,6 @@
 from flask import Flask, make_response
-from flask_migrate import flask_migrate
-from model import db, Pizzas, Restaurant_Pizzas, Restaurant
+from flask_migrate import Migrate
+from model import db, Pizzas, Restaurant_Pizzas, Restaurants
 
 app = Flask(__name__) #initializes app
 app. config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pizza.db"
