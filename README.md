@@ -23,8 +23,10 @@ Before you can run this application, you need to have the following installed:
 
 - Python 3.10.12
 - Flask
-- Flask-RESTful
 - Flask-SQLAlchemy
+- Flask-Migrate
+- Flask-RESTful
+- Enviroment
 - SQLite (or another relational database)
 
 ### Installation
@@ -58,7 +60,7 @@ Before you can run this application, you need to have the following installed:
 
    ```bash
    flask db init
-   flask db migrate
+   flask db revision --autogenerate -m"message"
    flask db upgrade
    ```
 
