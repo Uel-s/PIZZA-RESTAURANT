@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 
+# Initialize SQLAlchemy
 db = SQLAlchemy()
 
 class Pizzas(db.Model):
@@ -12,13 +13,15 @@ class Pizzas(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
+ # Define the relationship with Restaurant_Pizzas
     respizza = db.relationship("Restaurant_Pizzas", back_populates= "pizzas", lazy=True)
 
 
-
+  # Define a representation for Pizzas
     def  __repr__ (self):
         return f"Pizzas(id={self.id}, name={self.name}, ingredients{self.ingredients})"
 
+# Define the Restaurants model
 class Restaurants(db.Model):
     __tablename__ = "restaurant"
 
@@ -26,8 +29,10 @@ class Restaurants(db.Model):
     name = db.Column(db.String, unique = True)
     address = db.Column(db.String)
 
+ # Define the relationship with Restaurant_Pizzas
     respizza = db.relationship("Restaurant_Pizzas", back_populates="restaurants", lazy=True)
 
+# Validation for the 'name' field
     @validates("name")
     def validate_name(self, key, name):
 
@@ -42,10 +47,11 @@ class Restaurants(db.Model):
 
         return name
 
+ # Define a representation for Restaurants
     def __repr__(self):
         return f"Restaurant(id={self.id}, name={self.name}, address={self.address})"
 
-
+# Define the Restaurant_Pizzas model
 class Restaurant_Pizzas(db.Model):
     __tablename__ = "respizza"
 
@@ -60,8 +66,11 @@ class Restaurant_Pizzas(db.Model):
 
     restaurants = db.relationship("Restaurants", back_populates="respizza", lazy =True)
 
+
+    # Define the relationship with Pizzas
     pizzas = db.relationship("Pizzas", back_populates= "respizza", lazy = True)
 
+ # Validation for the 'price' field
     @validates("price")
     def validate_price(self, key, price):
         if not (1 <= price <= 30 ):
