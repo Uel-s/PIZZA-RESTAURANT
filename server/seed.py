@@ -4,18 +4,7 @@ from model import Pizzas, Restaurants, Restaurant_Pizzas  # Import your models
 import random
 
 # Your restaurant and pizza data
-restaurant_names = [
-    "Pizza Paradise",
-    "The Crust Factory",
-    "Slice of Heaven",
-    "Pizza Palace",
-    "Mamma Mia Pizzeria",
-    "Pizza Planet",
-    "Cheesy Delights",
-    "Pie Haven",
-    "Saucy Slices",
-    "Pizza World",
-]
+
 
 pizza_names = [
     "Spicy BBQ",
@@ -33,18 +22,20 @@ pizza_names = [
 with app.app_context():
     fake = Faker()
 
-    # Clear existing data (optional, depending on your needs)
-    db.drop_all()
-    db.create_all()
+    # Clear existing data from specific tables
+    Restaurants.query.delete()
+    Pizzas.query.delete()
+    Restaurant_Pizzas.query.delete()
 
     # Populate restaurants
     restaurants = []
-    for restaurant in restaurant_names:
-        new_restaurant = Restaurants(
-            name=restaurant,
-            address=fake.address()
-        )
+
+    for _ in range(50):
+        new_restaurant = Restaurants()
+        new_restaurant.name = fake.name()
+        new_restaurant.address = fake.address()
         restaurants.append(new_restaurant)
+   
     db.session.add_all(restaurants)
     db.session.commit()
     print("Restaurants successfully populated")

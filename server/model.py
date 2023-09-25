@@ -44,7 +44,7 @@ class Restaurants(db.Model):
         names = db.session.query(Restaurants.name).all()
 
         if len(name) > 50:
-            raise ValueError("Must have a name less than 50 words")
+            raise ValueError("Must have a name less than 50 Characters")
 
         elif name in names:
             raise ValueError("Must have a unique name")

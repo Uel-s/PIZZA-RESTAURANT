@@ -45,7 +45,7 @@ api.add_resource(Restaurant, "/restaurants")
 
 class RestaurantId(Resource):
     def get(self, id):
-        restaurant = Restaurants.query.get(id)
+        restaurant = Restaurants.query.filter(id == id).first()
         if restaurant:
             data = {
                 "id": restaurant.id,
@@ -68,7 +68,7 @@ class RestaurantId(Resource):
 
 
 # Add the RestaurantId resource to the API with a specific endpoint
-api.add_resource(RestaurantId, "/resid/<int:id>")
+api.add_resource(RestaurantId, "/restaurants/<int:id>")
 
 # Define a resource for deleting a restaurant
 
@@ -91,7 +91,7 @@ class Restaurant_Delete(Resource):
 # Add the Restaurant_Delete resource to the API with a specific endpoint
 
 
-api.add_resource(Restaurant_Delete, "/deleteres/<int:id>")
+api.add_resource(Restaurant_Delete, "/delete/<int:id>")
 
 # Define a resource for retrieving pizza data
 
