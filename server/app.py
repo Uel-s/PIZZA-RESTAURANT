@@ -122,6 +122,20 @@ api.add_resource(Pizza_Get, "/pizza")
 # Define a resource for creating restaurant-pizza associations
 class Restaurant_pizza(Resource):
 
+    def get (self):
+        res_pizza = Restaurant_Pizzas.query.all()
+        pizza_dict = []
+        for n in res_pizza:
+            data =  {
+                "id": n.id,
+                "price": n.price,
+                "pizza_id": n.pizza_id,
+                "restaurant_id": n.restaurant_id
+            }
+            pizza_dict.append(data)
+
+            return make_response(jsonify(pizza_dict), 200)
+
     def post(self):
 
         data = request.get_json()
