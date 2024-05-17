@@ -128,7 +128,7 @@ The project structure is organized as follows:
 
 ## AUTHOR
 
-[AUTHOR](#kariukiwaweru@gmail.com)
+[AUTHOR](#kariukiwaweru@gmail.com).
 
 
 
