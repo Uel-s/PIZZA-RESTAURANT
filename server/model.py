@@ -15,8 +15,7 @@ class Pizzas(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
  # Define the relationship with Restaurant_Pizzas
-    respizza = db.relationship(
-        "Restaurant_Pizzas", back_populates="pizzas", lazy=True)
+    respizza = db.relationship("Restaurant_Pizzas", back_populates="pizzas", lazy=True)
 
   # Define a representation for Pizzas
 
@@ -34,8 +33,7 @@ class Restaurants(db.Model):
     address = db.Column(db.String)
 
  # Define the relationship with Restaurant_Pizzas
-    respizza = db.relationship(
-        "Restaurant_Pizzas", back_populates="restaurants", lazy=True)
+    respizza = db.relationship("Restaurant_Pizzas", back_populates="restaurants", lazy=True)
 
 # Validation for the 'name' field
     @validates("name")
@@ -68,8 +66,7 @@ class Restaurant_Pizzas(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, onupdate=db.func.now())
 
-    restaurants = db.relationship(
-        "Restaurants", back_populates="respizza", lazy=True)
+    restaurants = db.relationship("Restaurants", back_populates="respizza", lazy=True)
 
     # Define the relationship with Pizzas
     pizzas = db.relationship("Pizzas", back_populates="respizza", lazy=True)

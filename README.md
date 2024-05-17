@@ -97,9 +97,6 @@ The API offers the following routes:
     "restaurant_id": 3
   }
   ```
-
-  
-
 Example usage:
 
 - To get a list of all restaurants: `GET http://localhost:5555restaurants`
@@ -128,11 +125,7 @@ The project structure is organized as follows:
 
 ## AUTHOR
 
-[AUTHOR](#kariukiwaweru@gmail.com)
-
-
-
-
+[AUTHOR](#kariukiwaweru@gmail.com).
 
 ## LICENSE
 

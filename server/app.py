@@ -1,8 +1,7 @@
-from flask import Flask, make_response, request, jsonify
+from flask import Flask, jsonify, make_response, request
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
-from model import db, Pizzas, Restaurant_Pizzas, Restaurants # import the table models
-
+from model import Pizzas, Restaurant_Pizzas, Restaurants, db  # import the table models
 
 app = Flask(__name__)  # initializes app
 app. config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pizza.db"
@@ -14,14 +13,18 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 # Initialize Flask-RESTful
-api = Api(app) 
+api = Api(app)
 
 # Define a route for the homepage
+
+
 @app.route("/")
 def index():
     return "<h1>The Pizza Place</h1>"
 
 # Define a resource for retrieving restaurant data
+
+
 class Restaurant(Resource):
 
     def get(self):
@@ -36,6 +39,7 @@ class Restaurant(Resource):
             index.append(data)
 
         return make_response(jsonify(index), 200)
+
 
 # route for restaurant
 api.add_resource(Restaurant, "/restaurants")
@@ -71,6 +75,7 @@ class RestaurantId(Resource):
 api.add_resource(RestaurantId, "/restaurants/<int:id>")
 
 # Define a resource for deleting a restaurant
+
 
 class Restaurant_Delete(Resource):
 
@@ -122,11 +127,11 @@ api.add_resource(Pizza_Get, "/pizza")
 # Define a resource for creating restaurant-pizza associations
 class Restaurant_pizza(Resource):
 
-    def get (self):
+    def get(self):
         res_pizza = Restaurant_Pizzas.query.all()
         pizza_dict = []
         for n in res_pizza:
-            data =  {
+            data = {
                 "id": n.id,
                 "price": n.price,
                 "pizza_id": n.pizza_id,
